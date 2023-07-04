@@ -23,11 +23,11 @@ class DatabaseAPI:
         return instance
 
     def get_all(self, table, **kwargs):
-        return self.session.query(table).filter(
+        return self.session.query(table).filter_by(
             **kwargs
         ).all()
 
-    def create(self, table, data):
+    def create(self, table, data: dict):
         instance = table(**data)
 
         self.session.add(instance)
@@ -36,10 +36,10 @@ class DatabaseAPI:
 
         return instance
 
-    def update(self, table, data, instance_id):
-        instance = self.get(table, id=instance_id)
+    def update(self, table, data: dict, **kwargs):
+        instance = self.get(table, **kwargs)
 
-        for field, value in data:
+        for field, value in data.items():
             setattr(instance, field, value)
 
         self._pre_save_check()
@@ -47,8 +47,8 @@ class DatabaseAPI:
 
         return instance
 
-    def delete(self, table, instance_id):
-        instance = self.get(table, id=instance_id)
+    def delete(self, table, **kwargs):
+        instance = self.get(table, **kwargs)
         self.session.delete(instance)
         self.session.commit()
 
