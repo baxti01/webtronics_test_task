@@ -7,7 +7,7 @@ from passlib.hash import bcrypt
 from sqlalchemy.orm import Session
 
 from app.auth.exceptions import invalid_credentials, incorrect_data
-from app.auth.serializer import CreateUser, Token
+from app.auth.serializers import CreateUser, Token
 from app.database import models
 from app.database.config import get_session
 from app.database.database_api import DatabaseAPI

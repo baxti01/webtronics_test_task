@@ -10,7 +10,7 @@ class Post(BasePost):
     id: int
     user_id: int
 
-    like_count: str
+    like_count: int
     author: str
 
     class Config:

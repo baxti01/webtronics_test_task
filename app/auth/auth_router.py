@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Form
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.auth.exceptions import invalid_grant_type
-from app.auth.serializer import Token, CreateUser
+from app.auth.serializers import Token, CreateUser
 from app.auth.service import AuthService
 
 router = APIRouter(
@@ -39,7 +39,3 @@ def refresh(
         return AuthService.refresh_access_token(token=refresh_token)
 
     raise invalid_grant_type
-
-
-
-

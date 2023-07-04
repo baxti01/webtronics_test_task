@@ -44,4 +44,3 @@ class Likes(Base):
 
     user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     user = relationship("Users", back_populates="likes")
-

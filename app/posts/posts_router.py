@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, status, Response
 
 from app.auth.service import get_current_user
-from app.posts.serializer import Post, CreatePost, UpdatePost
+from app.posts.serializers import Post, CreatePost, UpdatePost
 from app.posts.service import PostsService
 
 router = APIRouter(
@@ -17,7 +17,7 @@ def get_all(
         user_id: int = Depends(get_current_user),
         service: PostsService = Depends()
 ):
-    return service.get_all(user_id)
+    return service.get_all()
 
 
 @router.get("/{post_id}/", response_model=Post)
@@ -26,7 +26,7 @@ def get(
         user_id: int = Depends(get_current_user),
         service: PostsService = Depends()
 ):
-    return service.get(user_id, post_id)
+    return service.get(post_id)
 
 
 @router.post("/", response_model=Post)

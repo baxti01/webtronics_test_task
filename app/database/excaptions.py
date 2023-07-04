@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 
 does_not_exist = HTTPException(
     status_code=status.HTTP_400_BAD_REQUEST,
-    detail=f"Такой записи нет в базе!"
+    detail="Такой записи нет в базе!"
 )
 
 unique_error = HTTPException(
