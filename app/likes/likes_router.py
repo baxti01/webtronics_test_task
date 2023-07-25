@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Response, status, Depends
 
 from app.auth.service import get_current_user
-from app.likes.service import LikesService
+from app.likes.serializers import Reaction
+from app.likes.service import ReactionsService
 
 router = APIRouter(
     prefix="/likes",
@@ -9,21 +10,31 @@ router = APIRouter(
 )
 
 
-@router.post("/{post_id}/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create(
-        post_id: int,
+        reaction_data: Reaction,
         user_id: int = Depends(get_current_user),
-        service: LikesService = Depends()
+        service: ReactionsService = Depends()
 ):
-    service.create_like(user_id, post_id)
-    return Response(status_code=status.HTTP_201_CREATED)
+    service.create_reaction(user_id, reaction_data)
+    return {"detail": "Reaction created"}
 
 
-@router.delete("/{post_id}/", status_code=status.HTTP_201_CREATED)
+@router.put("/")
+def update(
+        reaction_data: Reaction,
+        user_id: int = Depends(get_current_user),
+        service: ReactionsService = Depends()
+):
+    service.update_reaction(user_id, reaction_data)
+    return {"detail": "Reaction updated"}
+
+
+@router.delete("/")
 def delete(
-        post_id: int,
+        reaction_data: Reaction,
         user_id: int = Depends(get_current_user),
-        service: LikesService = Depends()
+        service: ReactionsService = Depends()
 ):
-    service.delete_like(user_id, post_id)
-    return Response(status_code=status.HTTP_201_CREATED)
+    service.delete_reaction(user_id, reaction_data)
+    return {"detail": "Reaction deleted"}

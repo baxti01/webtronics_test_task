@@ -11,6 +11,7 @@ class Post(BasePost):
     user_id: int
 
     like_count: int
+    dislike_count: int
     author: str
 
     class Config:

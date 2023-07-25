@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 
 from app.database.config import Base
+from app.likes.serializers import ReactionType
 
 
 class Users(Base):
@@ -27,6 +28,7 @@ class Posts(Base):
     content = Column(Text, nullable=False)
     author = Column(String, nullable=False)
     like_count = Column(Integer, default=0)
+    dislike_count = Column(Integer, default=0)
 
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     user = relationship("Users", back_populates="posts")
@@ -38,6 +40,8 @@ class Likes(Base):
     __tablename__ = "likes"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+
+    type = Column(Enum(ReactionType), nullable=False)
 
     post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"))
     post = relationship("Posts", back_populates="likes")

@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 39e68ff6ea6a
+Revision ID: 0f8433d5051c
 Revises: 
-Create Date: 2023-07-03 18:24:05.633512
+Create Date: 2023-07-05 05:17:19.954622
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '39e68ff6ea6a'
+revision = '0f8433d5051c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,12 +34,14 @@ def upgrade():
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('author', sa.String(), nullable=False),
     sa.Column('like_count', sa.Integer(), nullable=True),
+    sa.Column('dislike_count', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('likes',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('type', sa.Enum('LIKE', 'DISLIKE', name='liketypeenum'), nullable=False),
     sa.Column('post_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ondelete='CASCADE'),
